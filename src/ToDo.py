@@ -14,6 +14,7 @@ class ActionType(Enum):
     SHOW_ALL = auto()
     ADD_ITEM = auto()
     REMOVE_ITEM = auto()
+    SORT_ITEMS = auto()
 
 
 MIN_PRIORITY = 0
@@ -61,11 +62,8 @@ class ToDoItem:
 
         self.__priority = new_priority
 
-    def __str__(self):
-        return f"Id: {self.__id} | Name: {self.__name} | Description: {self.__description} | Priority: {self.__priority}"
-
     def __repr(self):
-        return str(self)
+        return f"Id: {self.__id} | Name: {self.__name} | Description: {self.__description} | Priority: {self.__priority}"
 
 
 class ToDoList:
@@ -76,9 +74,32 @@ class ToDoList:
         self.__todoItems.append(todoItem)
 
     def remove_item(self, id: int):
-        item = filter(lambda x: x.id == id, self.__todoItems)
-        if not item:
+        found_item = None
+        for item in self.__todoItems:
+            if item.id == id:
+                found_item = item
+
+        if not found_item:
             raise InvalidItemException(f"Item with id: {id} was not found in list")
+        self.__todoItems.remove(found_item)
+
+    def name_key(item: ToDoItem):
+        return item.name
+
+    def id_key(item: ToDoItem):
+        return item.id
+
+    def sort_by_id(self):
+        self.__todoItems.sort(key=lambda item: item.id)
+
+    def sort_by_name(self):
+        self.__todoItems.sort(key=lambda item: item.name)
+
+    def sort_by_description(self):
+        self.__todoItems.sort(key=lambda item: item.description)
+
+    def sort_by_priority(self):
+        self.__todoItems.sort(key=lambda item: item.priority)
 
     def __repr__(self):
         return "\n".join([str(item) for item in self.__todoItems])
