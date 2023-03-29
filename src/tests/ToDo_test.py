@@ -1,11 +1,4 @@
-from ToDo import (
-    ToDoList,
-    ToDoItem,
-    InvalidItemException,
-    InvalidPriorityException,
-    MIN_PRIORITY,
-    MAX_PRIORITY,
-)
+from ToDo import ToDoList, ToDoItem, InvalidItemException, InvalidPriorityException
 
 FIRST_ITEM_LIST_INDEX = 0
 FIRST_ITEM_ID = 1
@@ -63,13 +56,13 @@ def test_item_should_throw_when_provided_invalid_priority():
 
 def test_new_list_should_be_empty():
     list = ToDoList()
-    assert list.empty() == True
+    assert list.empty()
 
 
 def test_list_with_item_should_not_return_empty():
     list = ToDoList()
     list.add_new_item(ToDoItem(0))
-    assert list.empty() == False
+    assert list.empty()
 
 
 def test_list_should_be_empty_after_add_remove_item():
@@ -77,7 +70,7 @@ def test_list_should_be_empty_after_add_remove_item():
     list.add_new_item(ToDoItem(OTHER_ITEM_ID))
     list.remove_item(OTHER_ITEM_ID)
 
-    assert list.empty() == True
+    assert list.empty()
 
 
 def test_list_should_throw_when_item_not_removed():
@@ -189,7 +182,7 @@ def test_list_should_be_sorted_by_name_ascending():
     assert sample_list.at(2).id == SECOND_ITEM_ID
 
 
-def test_list_should_be_sorted_by_id_descending():
+def test_list_should_be_sorted_by_name_descending():
     sample_list = prepare_sample_items_list_for_sort()
     sample_list.sort_by_name(reverse=True)
 
