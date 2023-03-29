@@ -68,14 +68,33 @@ class ToDoList:
         self.__todoItems.append(todoItem)
 
     def remove_item(self, id: int):
-        found_item = None
-        for item in self.__todoItems:
-            if item.id == id:
-                found_item = item
-
+        found_item = self.__find_item(id)
         if not found_item:
-            raise InvalidItemException(f"Item with id: {id} was not found in list")
+            raise InvalidItemException(
+                f"Remove item with id: {id} failed! Item was not found."
+            )
+
         self.__todoItems.remove(found_item)
+
+    def get_item(self, id: int):
+        found_item = self.__find_item(id)
+        if not found_item:
+            raise InvalidItemException(
+                f"Get item with id: {id} failed! Item was not found."
+            )
+
+        return found_item
+
+    def get_all_items(self):
+        return self.__todoItems
+
+    def at(self, index: int):
+        if index >= len(self.__todoItems) or index < 0:
+            raise InvalidItemException(
+                f"Get item by index: {index} failed! Provided index is out of range for list length: {len(self.__todoItems)}"
+            )
+
+        return self.__todoItems[index]
 
     def empty(self):
         return len(self.__todoItems) == 0
@@ -86,17 +105,26 @@ class ToDoList:
     def id_key(item: ToDoItem):
         return item.id
 
-    def sort_by_id(self):
-        self.__todoItems.sort(key=lambda item: item.id)
+    def sort_by_id(self, reverse=False):
+        self.__todoItems.sort(key=lambda item: item.id, reverse=reverse)
 
-    def sort_by_name(self):
-        self.__todoItems.sort(key=lambda item: item.name)
+    def sort_by_name(self, reverse=False):
+        self.__todoItems.sort(key=lambda item: item.name, reverse=reverse)
 
-    def sort_by_description(self):
-        self.__todoItems.sort(key=lambda item: item.description)
+    def sort_by_description(self, reverse=False):
+        self.__todoItems.sort(key=lambda item: item.description, reverse=reverse)
 
-    def sort_by_priority(self):
-        self.__todoItems.sort(key=lambda item: item.priority)
+    def sort_by_priority(self, reverse=False):
+        self.__todoItems.sort(key=lambda item: item.priority, reverse=reverse)
+
+    def __find_item(self, id: int):
+        found_item = None
+        for item in self.__todoItems:
+            if item.id == id:
+                found_item = item
+                break
+
+        return found_item
 
     def __repr__(self):
         return "\n".join([str(item) for item in self.__todoItems])

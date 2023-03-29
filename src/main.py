@@ -1,6 +1,4 @@
-from ToDo import (
-    UserInterface
-)
+from ToDo import UserInterface
 
 END_OF_LOOP = 0
 
